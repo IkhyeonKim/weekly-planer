@@ -16,6 +16,9 @@ class MyPage extends React.Component {
             newPlanNote: '',
             newPlanStartTime: '00:00',
             newPlanEndTime: '00:30',
+            slotKey: undefined,
+            monday: [], tuesday: [], wednesday: [], thursday: [],
+            friday: [], saturday: [], sunday: []
         }
     }
     openModal = () => {
@@ -40,15 +43,50 @@ class MyPage extends React.Component {
             day: this.state.newPlanDay,
             start: this.state.newPlanStartTime,
             end: this.state.newPlanEndTime,
-            note: this.state.newPlanNote
+            note: this.state.newPlanNote,
+            slotKey: this.state.slotKey
         }
         const newPlans = this.state.weekly.length === 0 ? [] : this.state.weekly.slice()
         newPlans.push(newPlan)
 
         this.setState({
             weekly: newPlans,
-            modalIsOpen: false
+            modalIsOpen: false,
+            newPlanDay: 'monday',
+            newPlanNote: '',
+            newPlanStartTime: '00:00',
+            newPlanEndTime: '00:30',
         })
+    }
+    splitPlans = (weekly) => {
+        console.log(weekly.length)
+        if(weekly.length !== 0){
+            weekly.forEach( plan => {
+                switch (plan.day) {
+                    case 'monday':
+                        this.state.monday.push(plan)
+                        break;        
+                    case 'tuesday': 
+                        this.state.tuesday.push(plan)
+                        break;
+                    case 'wednesday': 
+                        this.state.wednesday.push(plan)
+                        break;
+                    case 'thursday': 
+                        this.state.thursday.push(plan)
+                    break;
+                    case 'friday': 
+                        this.state.friday.push(plan)
+                    break;
+                    case 'saturday': 
+                        this.state.saturday.push(plan)
+                    break;
+                    case 'sunday': 
+                        this.state.sunday.push(plan)
+                    break;
+                }
+            })
+        }
     }
     componentDidMount(){
         try {
@@ -60,6 +98,7 @@ class MyPage extends React.Component {
                 this.setState({
                     weekly  
                 })
+                this.splitPlans(weekly)
             }
         } catch (error) {
             console.log(error)
@@ -79,6 +118,13 @@ class MyPage extends React.Component {
             <div>
                 <Days
                     plans={this.state.weekly}
+                    mondayPlan={this.state.monday}
+                    tuesdayPlan={this.state.tuesday}
+                    wednesdayPlan={this.state.wednesday}
+                    thursdayPlan={this.state.thursday}
+                    fridayPlan={this.state.friday}
+                    saturdayPlan={this.state.saturday}
+                    sundayPlan={this.state.sunday}
                 />
                 <button type='button' onClick={this.openModal} >Add</button>
                 <AddPlan
@@ -86,6 +132,9 @@ class MyPage extends React.Component {
                     onRequestClose={this.closeModal}
                     genericHandleChange={this.handleChange}
                     handleSubmit={this.handleSubmit}
+                    newPlanDay={this.state.newPlanDay}
+                    newPlanStartTime={this.state.newPlanStartTime}
+                    newPlanEndTime={this.state.newPlanEndTime}
                 />
             </div>
             

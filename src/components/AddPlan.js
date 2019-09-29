@@ -13,15 +13,17 @@ export default class AddPlanModal extends React.Component {
         for(let i = 0; i< 48; i++){
             let hourText;
             let minuteText;
+
             if(hour < 10){
                 hourText = `0${hour}`
-                minute === 0 ? minuteText = `${minute}0` : minuteText = `${minute}`
             }else{
                 hourText =`${hour}`
-                minute === 0 ? minuteText = `${minute}0` : minuteText = `${minute}`
             }
+            minute === 0 ? minuteText = `${minute}0` : minuteText = `${minute}`
+
             const timeSlot = <option key={i} value={`${hourText}:${minuteText}`}>{`${hourText}:${minuteText}`}</option>
             times.push(timeSlot)
+
             if(minute === 0){
                 minute = 30
             }else{
@@ -43,7 +45,7 @@ export default class AddPlanModal extends React.Component {
                     <form onSubmit={(e) => {this.props.handleSubmit(e)}}>
                         <label>
                             Day of week
-                            <select value="monday" onChange={(e) => {this.props.genericHandleChange('newPlanDay', e)}}>
+                            <select value={this.props.newPlanDay} onChange={(e) => {this.props.genericHandleChange('newPlanDay', e)}}>
                                 <option value="monday">Monday</option>
                                 <option value="tuesday">Tuesday</option>
                                 <option value="wednesday">Wednesday</option>
@@ -55,14 +57,14 @@ export default class AddPlanModal extends React.Component {
                         </label>
                         <label>
                             Time of day
-                            <select value="00:00" onChange={(e) => {this.props.genericHandleChange('newPlanStartTime', e)}}>
+                            <select value={this.props.newPlanStartTime} onChange={(e) => {this.props.genericHandleChange('newPlanStartTime', e)}}>
                                 {this.renderTime()}
                             </select>
                         </label>
                         <span> &nbsp;-&nbsp;</span>
                         <label>
                             Time of day
-                            <select value="00:30" onChange={(e) => {this.props.genericHandleChange('newPlanEndTime', e)}}>
+                            <select value={this.props.newPlanEndTime} onChange={(e) => {this.props.genericHandleChange('newPlanEndTime', e)}}>
                                 {this.renderTime()}
                             </select>
                         </label>

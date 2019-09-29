@@ -8,7 +8,14 @@
 .days {
     height: $slot-height;
     border: 1px solid #ccc;
+}
 
+.days {
+    text-transform: uppercase;
+}
+
+.color {
+    background-color: crimson;
 }
 .dayTimes {
 
