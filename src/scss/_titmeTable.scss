@@ -16,9 +16,9 @@
 
 .color {
     background-color: crimson;
-}
-.dayTimes {
-
+    border: none;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
 }
 .dayTime {
     height: $slot-height;
