@@ -39,6 +39,7 @@ class MyPage extends React.Component {
     }
     handleSubmit = (e) => {
         e.preventDefault()
+        const day = this.state.newPlanDay
         const newPlan = {
             day: this.state.newPlanDay,
             start: this.state.newPlanStartTime,
@@ -49,13 +50,19 @@ class MyPage extends React.Component {
         const newPlans = this.state.weekly.length === 0 ? [] : this.state.weekly.slice()
         newPlans.push(newPlan)
 
-        this.setState({
-            weekly: newPlans,
-            modalIsOpen: false,
-            newPlanDay: 'monday',
-            newPlanNote: '',
-            newPlanStartTime: '00:00',
-            newPlanEndTime: '00:30',
+        this.setState( (state, props) => {
+            console.log(state[day])
+            const newDayPlan = state[day]
+            newDayPlan.push(newPlan)
+            return{
+                weekly: newPlans,
+                modalIsOpen: false,
+                newPlanDay: 'monday',
+                newPlanNote: '',
+                newPlanStartTime: '00:00',
+                newPlanEndTime: '00:30',
+                [this.state.newPlanDay]: newDayPlan
+            }
         })
     }
     splitPlans = (weekly) => {
@@ -86,6 +93,16 @@ class MyPage extends React.Component {
                     break;
                 }
             })
+        }
+    }
+
+    extractTime = (type, timeString) => {
+        const regHour = /\d{2}/
+        const regMinute = /\d{2}$/
+        if(type === 'hour'){
+            return parseInt(regHour.exec(timeString)[0])
+        }else if(type === 'minute'){
+            return parseInt(regMinute.exec(timeString)[0])
         }
     }
     componentDidMount(){
@@ -125,6 +142,7 @@ class MyPage extends React.Component {
                     fridayPlan={this.state.friday}
                     saturdayPlan={this.state.saturday}
                     sundayPlan={this.state.sunday}
+                    extractTime={this.extractTime}
                 />
                 <button type='button' onClick={this.openModal} >Add</button>
                 <AddPlan

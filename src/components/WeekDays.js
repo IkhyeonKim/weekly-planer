@@ -13,6 +13,7 @@ export default class Days extends React.Component {
                             key={index} 
                             day={day}
                             dayPlan={prop[`${day}Plan`]}
+                            extractTime={prop.extractTime}
                         />
             daysSlots.push(slot)
         })
