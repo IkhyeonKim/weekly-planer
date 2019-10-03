@@ -36,6 +36,7 @@ export default function Day(props){
             let endTime = undefined
             let startTimeMinute = undefined
             let endTimeMinute = undefined
+            let timeIndexInside = timeIndex
 
             if(dayPlans[timeIndex]){
                 // to paint a slot
@@ -61,16 +62,16 @@ export default function Day(props){
             }
             // console.log(props)
             const slot = <div 
-                        key={slotKey} 
-                        className={isStillGoing ? `daySlot color`: `daySlot`}
-                        onClick={
-                            isStillGoing ? 
-                            () => props.openModal('editModalIsOpen', startTime, startTimeMinute, endTime, endTimeMinute, printedNote, day, dayPlans[timeIndex-1].planId) : 
-                            () => props.openModal('addModalIsOpen', hourText, minuteText, props.extractTime('hour', hourText)+1, minuteText, day)
-                            }
-                        >
-                        <p><span>{printedTime ? printedTime : ''}</span></p>
-                        <p>{isStillGoing ? firstPrint ? printedNote : '' : ''}</p>
+                            key={slotKey} 
+                            className={isStillGoing ? `daySlot color`: `daySlot`}
+                            onClick={
+                                isStillGoing ?
+                                () => props.openModal('editModalIsOpen', startTime, startTimeMinute, endTime, endTimeMinute, printedNote, day, dayPlans[timeIndexInside].planId) : 
+                                () => props.openModal('addModalIsOpen', hourText, minuteText, props.extractTime('hour', hourText)+1, minuteText, day)
+                                }
+                            >
+                            <p>{isStillGoing ? firstPrint ? printedNote : '' : ''}</p>
+                            <p><span>{printedTime ? printedTime : ''}</span></p>
                         </div>
             slots.push(slot)
             firstPrint = false

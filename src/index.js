@@ -35,7 +35,7 @@ class MyPage extends React.Component {
                 [whichModal]: true
             })
         }else if(planInfo){
-            //console.log(planInfo)
+            console.log(planInfo)
             if(whichModal === 'editModalIsOpen'){ 
                 this.setState({
                     [whichModal]: true,
@@ -82,8 +82,10 @@ class MyPage extends React.Component {
 
     }
     handleDelete = () => {
-        const planId = this.state.planId
+        const planId = this.state.editPlanId
         const newPlans = this.state.weekly.filter( plan => plan.planId !== planId)
+        console.log(planId, newPlans)
+        this.splitPlans(newPlans)
         this.setState({
             weekly: newPlans,
             editModalIsOpen: false,
@@ -93,6 +95,7 @@ class MyPage extends React.Component {
             editPlanEndTime: '00:30',
             editPlanId: ''
         })
+        
     }
     handleChange = (myNewState, event) => {
         //generic handleChange to avoid repeat same code
@@ -265,6 +268,7 @@ class MyPage extends React.Component {
                     editPlanStartTime={this.state.editPlanStartTime}
                     editPlanEndTime={this.state.editPlanEndTime}
                     editPlanNote={this.state.editPlanNote}
+                    editPlanId={this.state.editPlanId}
                     handleDelete={this.handleDelete}
                 />
             </div>
