@@ -13,9 +13,11 @@ export default function Day(props){
         const slots = []
         let hour = 0
         let minute = 0
-        let timeIndex
+        let timeIndex = 0
         let isStillGoing
         let dayPlans = []
+        let firstPrint = true
+        let planId = undefined
         if(props.dayPlan.length !== 0){
             timeIndex = 0
             isStillGoing = false
@@ -24,50 +26,59 @@ export default function Day(props){
 
         slots.push(<div key={day} className="daySlots days">{day}</div>)
         for(let i = 0; i< 48; i++){
-            let colored = undefined
+            
             let hourText = hour < 10 ? `0${hour}` : `${hour}`
             let minuteText = minute === 0 ? `0${minute}` : `${minute}`
             let slotKey = `${hourText}:${minuteText}`
             let printedTime = undefined
             let printedNote = undefined
+            let startTime = undefined
+            let endTime = undefined
+            let startTimeMinute = undefined
+            let endTimeMinute = undefined
 
             if(dayPlans[timeIndex]){
                 // to paint a slot
-                const reg = /\d{2}/
-                const regMinute = /\d{2}$/
-
-                const startTime = props.extractTime('hour', dayPlans[timeIndex].start)
-                const endTime = props.extractTime('hour', dayPlans[timeIndex].end)
-                const startTimeMinute = props.extractTime('minute', dayPlans[timeIndex].start)
-                const endTimeMinute = props.extractTime('minute', dayPlans[timeIndex].end)
+                startTime = props.extractTime('hour', dayPlans[timeIndex].start)
+                endTime = props.extractTime('hour', dayPlans[timeIndex].end)
+                startTimeMinute = props.extractTime('minute', dayPlans[timeIndex].start)
+                endTimeMinute = props.extractTime('minute', dayPlans[timeIndex].end)
                 
                 if(slotKey === dayPlans[timeIndex].start){
-                    colored = 'color'
+                    
                     isStillGoing = true
+                    firstPrint = true
+                    planId = dayPlans[timeIndex].planId
                     let startAmPm = startTime < 12 ? 'AM' : 'PM' 
                     let endAmPm = endTime < 12 ? 'AM' : 'PM' 
                     printedTime = `${startTime > 12 ? startTime - 12: startTime}:
                     ${startTimeMinute === 0 ? `0${startTimeMinute}` : startTimeMinute} ${startAmPm} - 
                     ${endTime > 12 ? endTime - 12: endTime}:
                     ${endTimeMinute === 0 ? `0${endTimeMinute}` : endTimeMinute} ${endAmPm}`
-                    printedNote = `${dayPlans[timeIndex].note}`
-                    // printedTime += <p>{dayPlans[timeIndex].note}</p>
-
+                    printedNote = `${dayPlans[timeIndex].note}`                    
                 }
-
+                printedNote = `${dayPlans[timeIndex].note}`
             }
+            // console.log(props)
             const slot = <div 
                         key={slotKey} 
-                        className={colored || isStillGoing ? `daySlot color`: `daySlot`}
+                        className={isStillGoing ? `daySlot color`: `daySlot`}
+                        onClick={
+                            isStillGoing ? 
+                            () => props.openModal('editModalIsOpen', startTime, startTimeMinute, endTime, endTimeMinute, printedNote, day, dayPlans[timeIndex-1].planId) : 
+                            () => props.openModal('addModalIsOpen', hourText, minuteText, props.extractTime('hour', hourText)+1, minuteText, day)
+                            }
                         >
-                        <p>{printedTime ? printedTime : ''}</p>
-                        <p>{printedNote ? printedNote : ''}</p>
+                        <p><span>{printedTime ? printedTime : ''}</span></p>
+                        <p>{isStillGoing ? firstPrint ? printedNote : '' : ''}</p>
                         </div>
             slots.push(slot)
-            
+            firstPrint = false
             if(dayPlans[timeIndex]){
                 if(slotKey === dayPlans[timeIndex].end){
+                    planId = ''
                     isStillGoing = false
+                    firstPrint = true
                     timeIndex++
                 }
             }
@@ -76,7 +87,7 @@ export default function Day(props){
                 minute = 30
             }else{
                 minute = 0
-                hour ++
+                hour++
             }
         }
         return slots

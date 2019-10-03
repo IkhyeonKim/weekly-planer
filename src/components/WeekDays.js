@@ -6,14 +6,15 @@ export default class Days extends React.Component {
         // rendering week days monday, tuesday ...
         const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
         const daysSlots = []
-        const prop = this.props
+        const props = this.props
         
         days.forEach( (day, index) => {
             const slot = <Day 
                             key={index} 
                             day={day}
-                            dayPlan={prop[`${day}Plan`]}
-                            extractTime={prop.extractTime}
+                            dayPlan={props[`${day}Plan`]}
+                            extractTime={props.extractTime}
+                            openModal={props.openModal}
                         />
             daysSlots.push(slot)
         })
