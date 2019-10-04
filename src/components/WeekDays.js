@@ -20,7 +20,6 @@ export default class Days extends React.Component {
             const sundayPlan = []
             
             this.props.plans.forEach( plan => {
-                console.log(plan)
                 switch (plan.day) {
                     case 'monday':
                         mondayPlan.push(plan)
@@ -59,7 +58,7 @@ export default class Days extends React.Component {
         this.splitPlans()
     }
     componentDidUpdate(prevProps, prevState){
-        if(prevProps.plans.length !== this.props.plans.length){
+        if(prevProps.plans.length !== this.props.plans.length || prevProps.editingToggle !== this.props.editingToggle){
             this.splitPlans()
         }
     }

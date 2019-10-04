@@ -17,7 +17,7 @@ export default function Day(props){
         let isStillGoing
         let dayPlans = []
         let firstPrint = true
-        let planId = undefined
+        
         if(props.dayPlan.length !== 0){
             timeIndex = 0
             isStillGoing = false
@@ -49,12 +49,12 @@ export default function Day(props){
                     
                     isStillGoing = true
                     firstPrint = true
-                    planId = dayPlans[timeIndex].planId
+                    
                     let startAmPm = startTime < 12 ? 'AM' : 'PM' 
                     let endAmPm = endTime < 12 ? 'AM' : 'PM' 
                     printedTime = `${startTime > 12 ? startTime - 12: startTime}:
                     ${startTimeMinute === 0 ? `0${startTimeMinute}` : startTimeMinute} ${startAmPm} - 
-                    ${endTime > 12 ? endTime - 12: endTime}:
+                    ${endTime > 12 ? endTime - 12: endTime} :
                     ${endTimeMinute === 0 ? `0${endTimeMinute}` : endTimeMinute} ${endAmPm}`
                     printedNote = `${dayPlans[timeIndex].note}`                    
                 }
@@ -70,14 +70,13 @@ export default function Day(props){
                                 () => props.openModal('addModalIsOpen', hourText, minuteText, props.extractTime('hour', hourText)+1, minuteText, day)
                                 }
                             >
-                            <p>{isStillGoing ? firstPrint ? printedNote : '' : ''}</p>
                             <p><span>{printedTime ? printedTime : ''}</span></p>
+                            <p>{isStillGoing ? firstPrint ? printedNote : '' : ''}</p>
                         </div>
             slots.push(slot)
             firstPrint = false
             if(dayPlans[timeIndex]){
                 if(slotKey === dayPlans[timeIndex].end){
-                    planId = ''
                     isStillGoing = false
                     firstPrint = true
                     timeIndex++

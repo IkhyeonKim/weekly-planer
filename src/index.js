@@ -24,8 +24,7 @@ class MyPage extends React.Component {
             editPlanStartTime: '00:00',
             editPlanEndTime: '00:30',
             editPlanId: undefined,
-            // monday: [], tuesday: [], wednesday: [], thursday: [],
-            // friday: [], saturday: [], sunday: []
+            editingToggle: false // to fire rendering to child components
         }
     }
     openModal = (whichModal, ...planInfo) => {
@@ -78,8 +77,34 @@ class MyPage extends React.Component {
             newPlanEndTime: '00:30',
         })
     }
-    handleEditPlan = () => {
+    handleEditSubmit = (e) => {
+        e.preventDefault()
+        const newPlan = {
+            day: this.state.editPlanDay,
+            start: this.state.editPlanStartTime,
+            end: this.state.editPlanEndTime,
+            note: this.state.editPlanNote,
+            planId: this.state.editPlanId
+        }
+        const newWeekly = this.state.weekly
+        console.log(newWeekly)
+        const index = newWeekly.findIndex( plan => plan.planId === newPlan.planId)
+        newWeekly[index] = newPlan
+        console.log(newWeekly)
 
+        const json = JSON.stringify(newWeekly)
+        localStorage.setItem('weekly', json)
+
+        this.setState({
+            weekly: newWeekly,
+            editModalIsOpen: false,
+            editPlanDay: 'monday',
+            editPlanNote: '',
+            editPlanStartTime: '00:00',
+            editPlanEndTime: '00:30',
+            editPlanId: '',
+            editingToggle: true
+        })
     }
     handleDelete = () => {
         const planId = this.state.editPlanId
@@ -102,9 +127,6 @@ class MyPage extends React.Component {
         this.setState({
             [myNewState]: event.target.value
         })
-    }
-    handleEditSubmit = (e) => {
-        e.preventDefault()
     }
     handleSubmit = (e) => {
         e.preventDefault()
@@ -225,11 +247,15 @@ class MyPage extends React.Component {
 
     componentDidUpdate(prevProps, prevState){
         // do something when something has changed?
-        if( prevState.weekly.length !== this.state.weekly.length){
+        if( prevState.weekly.length !== this.state.weekly.length || this.state.editingToggle){
             // this.splitPlans(this.state.weekly)
             //set items
             const json = JSON.stringify(this.state.weekly)
             localStorage.setItem('weekly', json)
+
+            this.setState({
+                editingToggle: false
+            })
         }
     }
     render(){
@@ -238,15 +264,9 @@ class MyPage extends React.Component {
             <div>
                 <Days
                     plans={this.state.weekly}
-                    // mondayPlan={this.state.monday}
-                    // tuesdayPlan={this.state.tuesday}
-                    // wednesdayPlan={this.state.wednesday}
-                    // thursdayPlan={this.state.thursday}
-                    // fridayPlan={this.state.friday}
-                    // saturdayPlan={this.state.saturday}
-                    // sundayPlan={this.state.sunday}
                     extractTime={this.extractTime}
                     openModal={this.openModal}
+                    editingToggle={this.state.editingToggle}
                 />
                 <button type='button' value="addModalIsOpen" onClick={ (e) => this.openModal('addModalIsOpen')} >Add</button>
                 <AddPlan
@@ -264,13 +284,13 @@ class MyPage extends React.Component {
                     onRequestClose={this.closeEditModal}
                     genericHandleChange={this.handleChange}
                     renderTime={this.renderTime}
-                    handleEditSubmit={this.handleEditSubmit}
                     editPlanDay={this.state.editPlanDay}
                     editPlanStartTime={this.state.editPlanStartTime}
                     editPlanEndTime={this.state.editPlanEndTime}
                     editPlanNote={this.state.editPlanNote}
                     editPlanId={this.state.editPlanId}
                     handleDelete={this.handleDelete}
+                    handleEditSubmit={this.handleEditSubmit}
                 />
             </div>
             
