@@ -2,6 +2,67 @@ import React from 'react'
 import Day from './WeekDay'
 
 export default class Days extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            monday: [], tuesday: [], wednesday: [], thursday: [],
+            friday: [], saturday: [], sunday: []
+        }
+    }
+    splitPlans = () => {
+        if(this.props.plans.length !== 0){
+            const mondayPlan = []
+            const tuesdayPlan = []
+            const wednesdayPlan = []
+            const thursdayPlan = []
+            const fridayPlan = []
+            const saturdayPlan = []
+            const sundayPlan = []
+            
+            this.props.plans.forEach( plan => {
+                console.log(plan)
+                switch (plan.day) {
+                    case 'monday':
+                        mondayPlan.push(plan)
+                        break;        
+                    case 'tuesday': 
+                        tuesdayPlan.push(plan)
+                        break;
+                    case 'wednesday': 
+                        wednesdayPlan.push(plan)
+                        break;
+                    case 'thursday': 
+                        thursdayPlan.push(plan)
+                    break;
+                    case 'friday': 
+                        fridayPlan.push(plan)
+                    break;
+                    case 'saturday': 
+                        saturdayPlan.push(plan)
+                    break;
+                    case 'sunday': 
+                        sundayPlan.push(plan)
+                    break;
+                    default:
+                        mondayPlan.push(plan)
+                    break;
+                }
+            })
+            this.setState({
+                monday: mondayPlan, tuesday: tuesdayPlan, wednesday: wednesdayPlan, thursday: thursdayPlan, 
+                friday: fridayPlan, saturday: saturdayPlan, sunday: sundayPlan
+            })
+        }
+    }
+    componentDidMount(){
+        console.log('child')
+        this.splitPlans()
+    }
+    componentDidUpdate(prevProps, prevState){
+        if(prevProps.plans.length !== this.props.plans.length){
+            this.splitPlans()
+        }
+    }
     renderDays = () => {
         // rendering week days monday, tuesday ...
         const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
@@ -12,7 +73,7 @@ export default class Days extends React.Component {
             const slot = <Day 
                             key={index} 
                             day={day}
-                            dayPlan={props[`${day}Plan`]}
+                            dayPlan={this.state[`${day}`]}
                             extractTime={props.extractTime}
                             openModal={props.openModal}
                         />
@@ -47,6 +108,7 @@ export default class Days extends React.Component {
         return times
     }
     render(){
+        // this.splitPlans()
         return(
             <div className="timeTable">
                 <div className="dayTimes">{ this.renderTime() }</div>

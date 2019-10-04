@@ -24,8 +24,8 @@ class MyPage extends React.Component {
             editPlanStartTime: '00:00',
             editPlanEndTime: '00:30',
             editPlanId: undefined,
-            monday: [], tuesday: [], wednesday: [], thursday: [],
-            friday: [], saturday: [], sunday: []
+            // monday: [], tuesday: [], wednesday: [], thursday: [],
+            // friday: [], saturday: [], sunday: []
         }
     }
     openModal = (whichModal, ...planInfo) => {
@@ -85,7 +85,7 @@ class MyPage extends React.Component {
         const planId = this.state.editPlanId
         const newPlans = this.state.weekly.filter( plan => plan.planId !== planId)
         console.log(planId, newPlans)
-        this.splitPlans(newPlans)
+        // this.splitPlans(newPlans)
         this.setState({
             weekly: newPlans,
             editModalIsOpen: false,
@@ -121,7 +121,7 @@ class MyPage extends React.Component {
 
         this.setState( (state, props) => {
             console.log(state[day])
-            const newDayPlan = state[day]
+            const newDayPlan = state[day] ? state[day] : []
             newDayPlan.push(newPlan)
             return{
                 weekly: newPlans,
@@ -215,7 +215,8 @@ class MyPage extends React.Component {
                 this.setState({
                     weekly  
                 })
-                this.splitPlans(weekly)
+                console.log('parent has mounted')
+                // this.splitPlans(weekly)
             }
         } catch (error) {
             console.log(error)
@@ -224,7 +225,7 @@ class MyPage extends React.Component {
 
     componentDidUpdate(prevProps, prevState){
         // do something when something has changed?
-        if(prevState.weekly.length !== this.state.weekly.length){
+        if( prevState.weekly.length !== this.state.weekly.length){
             // this.splitPlans(this.state.weekly)
             //set items
             const json = JSON.stringify(this.state.weekly)
@@ -237,13 +238,13 @@ class MyPage extends React.Component {
             <div>
                 <Days
                     plans={this.state.weekly}
-                    mondayPlan={this.state.monday}
-                    tuesdayPlan={this.state.tuesday}
-                    wednesdayPlan={this.state.wednesday}
-                    thursdayPlan={this.state.thursday}
-                    fridayPlan={this.state.friday}
-                    saturdayPlan={this.state.saturday}
-                    sundayPlan={this.state.sunday}
+                    // mondayPlan={this.state.monday}
+                    // tuesdayPlan={this.state.tuesday}
+                    // wednesdayPlan={this.state.wednesday}
+                    // thursdayPlan={this.state.thursday}
+                    // fridayPlan={this.state.friday}
+                    // saturdayPlan={this.state.saturday}
+                    // sundayPlan={this.state.sunday}
                     extractTime={this.extractTime}
                     openModal={this.openModal}
                 />
