@@ -1,0 +1,91 @@
+.ReactModal__Content .ReactModal__Content--after-open {
+    box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2) !important;
+}
+.modal {
+
+    padding: 1rem;
+
+    h2{
+        font-size: 2.2rem;
+    }
+    span {
+        margin: 0 10px 0 0;
+        font-size: .7rem;
+    }
+
+    select {
+        background: #dadce0;
+        border-radius: 5px;
+        padding: 3px 2px;
+        font-family: "Raleway";
+        font-size: 1rem;
+    }
+    option {
+        background: white;
+    }
+    &__form {
+        display: grid;
+        grid-row-gap: .6rem;
+        padding: 1rem 0;
+
+        &--input {
+            width: 50%;
+            font-size: 1.4rem;
+            font-family: "Raleway";
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #8b8b8b;
+            transition: border-bottom .1s ease-in-out;
+            padding: 5px 0;
+            outline: none;
+            cursor: text;
+            border-radius: 8px;
+            
+
+            &:focus + .separator {
+                transform: scaleX(1) translateY(-2px);   
+                  opacity: 1;
+            }
+        }
+    }
+
+    &__buttons {
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin: 10px;
+
+        svg {
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            fill: #2566BA;
+            cursor: pointer;
+        }
+    }
+
+    &__submit {
+        width: 70px;
+        background-color: $color-blue;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        padding: 10px;
+        font-size: .9rem;
+    }
+
+}
+
+.separator {
+    height: 3px;
+    width: 50%;
+    background: $color-blue;
+    border-radius: 5px;
+    display: block;
+    transform: scaleX(0) translateY(-2px);
+    transform-origin: 50%;
+    opacity: 0;
+    transition: all .2s linear;
+}
