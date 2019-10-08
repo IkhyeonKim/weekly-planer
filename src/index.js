@@ -124,9 +124,37 @@ class MyPage extends React.Component {
     }
     handleChange = (myNewState, event) => {
         //generic handleChange to avoid repeat same code
-        this.setState({
-            [myNewState]: event.target.value
-        })
+        const value = event.target.value
+        if(myNewState === 'newPlanEndTime'){
+            if(this.extractTime('hour', this.state.newPlanStartTime) > this.extractTime('hour', value) ){
+                const minute = this.extractTime('minute', value)
+                const hour = this.extractTime('hour', value) - 1
+                this.setState({
+                    newPlanStartTime: `${hour < 10 ? '0' + hour: hour }:${minute === 0 ? minute + '0' : 30}`,
+                    newPlanEndTime: value
+                })
+            }else{
+                this.setState({newPlanEndTime: value})
+            }
+        }else if(myNewState === 'newPlanStartTime'){
+            if(this.extractTime('hour', this.state.newPlanEndTime) < this.extractTime('hour', value) ){
+                const minute = this.extractTime('minute', value)
+                const hour = this.extractTime('hour', value) + 1
+                this.setState({
+                    newPlanEndTime: `${hour < 10 ? '0' + hour: hour }:${minute === 0 ? minute + '0' : 30}`,
+                    newPlanStartTime: value
+                })
+            }else{
+                this.setState({newPlanStartTime: value})
+            }
+        }else{
+            this.setState({
+                [myNewState]: value
+            })
+        }
+        
+        
+        
     }
     handleSubmit = (e) => {
         e.preventDefault()
