@@ -85,7 +85,7 @@ export default class Days extends React.Component {
         const times = []
         let hour = 0
         let minute = 0
-        times.push(<div key={`time`} className="dayTime time">Time</div>)
+        times.push(<div key={`time`} className="dayTimes__dayTime time">Time</div>)
         for(let i = 0; i< 48; i++){
             let hourText;
             let minuteText;
@@ -95,8 +95,8 @@ export default class Days extends React.Component {
             else{hourText =`${hour}`}
             minute === 0 ? minuteText = `${minute}0` : minuteText = `${minute}`
 
-            const timeSlot = hour < 12 ? <div key={i} className="dayTime"><span>{`${hourText}:${minuteText} AM`}</span></div> :
-                                        <div key={i} className="dayTime"><span>{`${hourText}:${minuteText} PM`}</span></div>
+            const timeSlot = hour < 12 ? <div key={i} className="dayTimes__dayTime "><span>{`${hourText}:${minuteText} AM`}</span></div> :
+                                        <div key={i} className="dayTimes__dayTime "><span>{`${hourText}:${minuteText} PM`}</span></div>
             times.push(timeSlot)
             if(minute === 0){  minute = 30 }
             else{

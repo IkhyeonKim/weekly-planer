@@ -4,28 +4,94 @@
     grid-column-gap: 0;
     padding: 1rem;
 }
-.daySlot, 
-.days {
-    height: $slot-height;
-    border: 1px solid #ccc;
+
+.daySlots {
+
+    &__days,
+    &__daySlot {
+        height: $slot-height;
+        border: 1px solid #dfdfdf;
+    }
+    &__days{
+        text-transform: uppercase;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: .85rem;
+    }
+    &__daySlot {
+        cursor: pointer;
+    }
+
+    &__monday{background-color: $color-red}
+    &__tuesday{background-color: $color-yellow}
+    &__wednesday{background-color: $color-orange}
+    &__thursday{background-color: $color-green}
+    &__friday{background-color: $color-blue}
+    &__saturday{background-color: $color-purple}
+    &__sunday{background-color: $color-skyBlue}
+
+    &__colored {
+        border: none;
+        border-left: 1px solid #dfdfdf;
+        border-right: 1px solid #dfdfdf;
+        cursor: pointer;
+
+        &--radiusTop {
+            border-top-right-radius: 8px;
+            border-top-left-radius: 8px;
+        }
+        &--radiusBottom {
+            border-bottom-right-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+    }
+
+    &__contents {
+        & > :first-child {
+            width: 100%;
+            background-color: #ffffff40;
+            border-top-right-radius: 8px;
+            border-top-left-radius: 8px;
+            padding: 5px;
+        }
+        & > :nth-child(2){
+            padding: 5px;
+        }
+    }
+
 }
 
-.days {
-    text-transform: uppercase;
+
+.dayTimes {
+    &__dayTime {
+        height: $slot-height;
+        text-align: right;
+        padding-right: 10px;
+        & span {
+            position: relative;
+            top: -5px;
+            color: $font-color-light;
+        }
+    }
+}
+.time {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 10px;
 }
 
-.color {
-    background-color: crimson;
-    border: none;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-}
-.dayTime {
-    height: $slot-height;
-    text-align: right;
-    padding-right: 10px;
-    & span {
-        position: relative;
-        top: -5px;
+.add-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    fill: #FF4743;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    &:hover{
+        fill: #FF0900;
     }
 }

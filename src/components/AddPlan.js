@@ -10,8 +10,8 @@ export default class AddPlanModal extends React.Component {
                 isOpen={this.props.isOpen}
                 onRequestClose={this.props.onRequestClose}
             >
-                <div>
-                    <h1>Add your plan</h1>
+                <div className="modal">
+                    <h2>Add your plan</h2>
                     <form onSubmit={(e) => {this.props.handleSubmit(e)}}>
                         <label>
                             Day of week

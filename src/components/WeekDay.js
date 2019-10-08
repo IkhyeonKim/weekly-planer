@@ -17,6 +17,7 @@ export default function Day(props){
         let isStillGoing
         let dayPlans = []
         let firstPrint = true
+        let lastPrint = false
         
         if(props.dayPlan.length !== 0){
             timeIndex = 0
@@ -24,7 +25,7 @@ export default function Day(props){
             dayPlans = sortPlans(props.dayPlan)
         }        
 
-        slots.push(<div key={day} className="daySlots days">{day}</div>)
+        slots.push(<div key={day} className="daySlots daySlots__days">{day}</div>)
         for(let i = 0; i< 48; i++){
             
             let hourText = hour < 10 ? `0${hour}` : `${hour}`
@@ -52,7 +53,7 @@ export default function Day(props){
                     
                     let startAmPm = startTime < 12 ? 'AM' : 'PM' 
                     let endAmPm = endTime < 12 ? 'AM' : 'PM' 
-                    printedTime = `${startTime > 12 ? startTime - 12: startTime}:
+                    printedTime = `${startTime > 12 ? startTime - 12: startTime} :
                     ${startTimeMinute === 0 ? `0${startTimeMinute}` : startTimeMinute} ${startAmPm} - 
                     ${endTime > 12 ? endTime - 12: endTime} :
                     ${endTimeMinute === 0 ? `0${endTimeMinute}` : endTimeMinute} ${endAmPm}`
@@ -61,24 +62,39 @@ export default function Day(props){
                 printedNote = `${dayPlans[timeIndex].note}`
             }
             // console.log(props)
+            if(dayPlans[timeIndex]){
+                if(slotKey === dayPlans[timeIndex].end){
+                    lastPrint = true
+                }
+            }
             const slot = <div 
                             key={slotKey} 
-                            className={isStillGoing ? `daySlot color`: `daySlot`}
+                            className={isStillGoing ? firstPrint ? `daySlots__daySlot daySlots__colored daySlots__${day} daySlots__colored--radiusTop` : 
+                                        lastPrint ? `daySlots__daySlot daySlots__colored daySlots__${day} daySlots__colored--radiusBottom` : 
+                                        `daySlots__daySlot daySlots__colored daySlots__${day}` : 
+                                        `daySlots__daySlot`}
                             onClick={
                                 isStillGoing ?
                                 () => props.openModal('editModalIsOpen', startTime, startTimeMinute, endTime, endTimeMinute, printedNote, day, dayPlans[timeIndexInside].planId) : 
                                 () => props.openModal('addModalIsOpen', hourText, minuteText, props.extractTime('hour', hourText)+1, minuteText, day)
                                 }
                             >
-                            <p><span>{printedTime ? printedTime : ''}</span></p>
-                            <p>{isStillGoing ? firstPrint ? printedNote : '' : ''}</p>
+                            <div className={isStillGoing ? 'daySlots__contents': ''}>
+                                {/* <p>{printedTime ? printedTime : ''}</p> */}
+                                {printedTime ? <p>{printedTime}</p> : ''}
+                                {isStillGoing ? firstPrint ? <p>{printedNote}</p> : '' : ''}
+                                {/* <p>{isStillGoing ? firstPrint ? <p>{printedTime}</p> : '' : ''}</p> */}
+                            </div>
                         </div>
             slots.push(slot)
+            
             firstPrint = false
             if(dayPlans[timeIndex]){
+                
                 if(slotKey === dayPlans[timeIndex].end){
                     isStillGoing = false
                     firstPrint = true
+                    lastPrint = false
                     timeIndex++
                 }
             }

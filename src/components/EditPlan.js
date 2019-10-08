@@ -9,7 +9,7 @@ export default class EditPlan extends React.Component {
                 isOpen={this.props.isOpen}
                 onRequestClose={this.props.onRequestClose}
             >
-                <div>
+                <div className="modal">
                     <h2>Edit your plan</h2>
                     <form onSubmit={(e) => {this.props.handleEditSubmit(e)}}>
                         <label>
