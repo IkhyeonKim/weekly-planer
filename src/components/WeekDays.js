@@ -10,7 +10,9 @@ export default class Days extends React.Component {
         }
     }
     splitPlans = () => {
+        
         if(this.props.plans.length !== 0){
+            
             const mondayPlan = []
             const tuesdayPlan = []
             const wednesdayPlan = []
@@ -51,6 +53,11 @@ export default class Days extends React.Component {
                 monday: mondayPlan, tuesday: tuesdayPlan, wednesday: wednesdayPlan, thursday: thursdayPlan, 
                 friday: fridayPlan, saturday: saturdayPlan, sunday: sundayPlan
             })
+        }else {
+            this.setState({
+                monday: [], tuesday: [], wednesday: [], thursday: [],
+                friday: [], saturday: [], sunday: []
+            })
         }
     }
     componentDidMount(){
@@ -58,6 +65,7 @@ export default class Days extends React.Component {
     }
     componentDidUpdate(prevProps, prevState){
         if(prevProps.plans.length !== this.props.plans.length || prevProps.editingToggle !== this.props.editingToggle){
+            
             this.splitPlans()
         }
     }

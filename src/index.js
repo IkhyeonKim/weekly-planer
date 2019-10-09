@@ -83,7 +83,7 @@ class MyPage extends React.Component {
             day: this.state.editPlanDay,
             start: this.state.editPlanStartTime,
             end: this.state.editPlanEndTime,
-            note: this.state.editPlanNote,
+            note: this.state.editPlanNote === '' ? 'No title' : this.state.newPlanNote,
             planId: this.state.editPlanId
         }
         const newWeekly = this.state.weekly
@@ -108,7 +108,7 @@ class MyPage extends React.Component {
     handleDelete = () => {
         const planId = this.state.editPlanId
         const newPlans = this.state.weekly.filter( plan => plan.planId !== planId)
-        // this.splitPlans(newPlans)
+        
         this.setState({
             weekly: newPlans,
             editModalIsOpen: false,
@@ -161,7 +161,7 @@ class MyPage extends React.Component {
             day: this.state.newPlanDay,
             start: this.state.newPlanStartTime,
             end: this.state.newPlanEndTime,
-            note: this.state.newPlanNote,
+            note: this.state.newPlanNote === '' ? 'No title' : this.state.newPlanNote,
             planId: uuidV4()
         }
         const newPlans = this.state.weekly.length === 0 ? [] : this.state.weekly.slice()
@@ -180,39 +180,6 @@ class MyPage extends React.Component {
                 [this.state.newPlanDay]: newDayPlan
             }
         })
-    }
-    splitPlans = (weekly) => {
-        
-        if(weekly.length !== 0){
-            weekly.forEach( plan => {
-                switch (plan.day) {
-                    case 'monday':
-                        this.state.monday.push(plan)
-                        break;        
-                    case 'tuesday': 
-                        this.state.tuesday.push(plan)
-                        break;
-                    case 'wednesday': 
-                        this.state.wednesday.push(plan)
-                        break;
-                    case 'thursday': 
-                        this.state.thursday.push(plan)
-                    break;
-                    case 'friday': 
-                        this.state.friday.push(plan)
-                    break;
-                    case 'saturday': 
-                        this.state.saturday.push(plan)
-                    break;
-                    case 'sunday': 
-                        this.state.sunday.push(plan)
-                    break;
-                    default:
-                        this.state.monday.push(plan)
-                    break;
-                }
-            })
-        }
     }
 
     renderTime = () => {
@@ -271,7 +238,7 @@ class MyPage extends React.Component {
 
     componentDidUpdate(prevProps, prevState){
         // do something when something has changed?
-        if( prevState.weekly.length !== this.state.weekly.length || this.state.editingToggle){
+        if( (prevState.weekly.length !== this.state.weekly.length) || (this.state.editingToggle)){
             // this.splitPlans(this.state.weekly)
             //set items
             const json = JSON.stringify(this.state.weekly)
