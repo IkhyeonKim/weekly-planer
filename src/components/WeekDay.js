@@ -53,10 +53,8 @@ export default function Day(props){
                     
                     let startAmPm = startTime < 12 ? 'AM' : 'PM' 
                     let endAmPm = endTime < 12 ? 'AM' : 'PM' 
-                    printedTime = `${startTime > 12 ? startTime - 12: startTime} :
-                    ${startTimeMinute === 0 ? `0${startTimeMinute}` : startTimeMinute} ${startAmPm} - 
-                    ${endTime > 12 ? endTime - 12: endTime} :
-                    ${endTimeMinute === 0 ? `0${endTimeMinute}` : endTimeMinute} ${endAmPm}`
+                    printedTime = `${startTime > 12 ? startTime - 12: startTime}:${startTimeMinute === 0 ? `0${startTimeMinute}` : startTimeMinute} ${startAmPm} - 
+                    ${endTime > 12 ? endTime - 12: endTime}:${endTimeMinute === 0 ? `0${endTimeMinute}` : endTimeMinute} ${endAmPm}`
                     printedNote = `${dayPlans[timeIndex].note}`                    
                 }
                 printedNote = `${dayPlans[timeIndex].note}`
@@ -72,7 +70,7 @@ export default function Day(props){
                             className={isStillGoing ? firstPrint ? `daySlots__daySlot daySlots__colored daySlots__${day} daySlots__colored--radiusTop` : 
                                         lastPrint ? `daySlots__daySlot daySlots__colored daySlots__${day} daySlots__colored--radiusBottom` : 
                                         `daySlots__daySlot daySlots__colored daySlots__${day}` : 
-                                        `daySlots__daySlot`}
+                                        `daySlots__daySlot daySlots__unColored`}
                             onClick={
                                 isStillGoing ?
                                 () => props.openModal('editModalIsOpen', startTime, startTimeMinute, endTime, endTimeMinute, printedNote, day, dayPlans[timeIndexInside].planId) : 

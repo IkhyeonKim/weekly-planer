@@ -54,7 +54,6 @@ export default class Days extends React.Component {
         }
     }
     componentDidMount(){
-        console.log('child')
         this.splitPlans()
     }
     componentDidUpdate(prevProps, prevState){

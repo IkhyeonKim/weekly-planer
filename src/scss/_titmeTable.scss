@@ -2,15 +2,30 @@
     display: grid;
     grid-template-columns: 8vw repeat(7, 1fr);
     grid-column-gap: 0;
-    padding: 1rem;
+    margin: 1rem;
+    border: 1px solid $color-border;
+
+    @media only screen and(max-width: $break-point){
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-gap: 1rem;
+        border: none;
+    }
 }
 
 .daySlots {
-
+    @media only screen and(max-width: $break-point){
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 3px 4px 7px 1px rgba(0, 0, 0, 0.14);
+    }
     &__days,
     &__daySlot {
         height: $slot-height;
-        border: 1px solid #dfdfdf;
+        border: 1px solid $color-border;
+        @media only screen and (max-width: $break-point){
+            border: none;
+        }
     }
     &__days{
         text-transform: uppercase;
@@ -18,10 +33,20 @@
         justify-content: center;
         align-items: center;
         font-size: .85rem;
+        @media only screen and (max-width: $break-point){
+            font-size: 1rem;
+            box-shadow: none;
+            justify-content: flex-start;
+        }
     }
     &__daySlot {
         cursor: pointer;
         font-size: .9rem;
+
+        display: block;
+        @media only screen and (max-width: $break-point){
+            display: none;
+        }
     }
 
     &__monday{background-color: $color-red}
@@ -34,17 +59,22 @@
 
     &__colored {
         border: none;
-        border-left: 1px solid #dfdfdf;
-        border-right: 1px solid #dfdfdf;
+        border-left: 1px solid $color-border;
+        border-right: 1px solid $color-border;
         cursor: pointer;
 
         &--radiusTop {
             border-top-right-radius: 8px;
             border-top-left-radius: 8px;
+            display: block !important;
         }
         &--radiusBottom {
             border-bottom-right-radius: 8px;
             border-bottom-left-radius: 8px;
+            display: block !important;
+            @media only screen and (max-width: $break-point){
+                margin-bottom: 10px;
+            }
         }
     }
 
@@ -65,10 +95,14 @@
 
 
 .dayTimes {
+    @media only screen and (max-width: $break-point){
+        display: none;
+    }
     &__dayTime {
         height: $slot-height;
         text-align: right;
         padding-right: 10px;
+        border-right: 1px solid $color-border;
         & span {
             position: relative;
             top: -5px;
@@ -80,7 +114,6 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-right: 10px;
 }
 
 .add-icon {
