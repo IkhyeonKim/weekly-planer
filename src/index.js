@@ -259,7 +259,7 @@ class MyPage extends React.Component {
                 bottom                : 'auto',
                 marginRight           : '-50%',
                 transform             : 'translate(-50%, -50%)',
-                width                 : '70vw',
+                width                 : '85vw',
                 maxWidth              : '900px',
                 background              : '#A1E0F4',
                 boxShadow               : '0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2)',

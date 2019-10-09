@@ -4,9 +4,13 @@
 .modal {
 
     padding: 1rem;
-
+    font-family: 'Raleway';
     h2{
         font-size: 2.2rem;
+        font-family: 'Raleway';
+        @media only screen and(max-width: $break-point){
+            font-size: 1.8em;
+        } 
     }
     span {
         margin: 0 10px 0 0;
@@ -25,7 +29,7 @@
     }
     &__form {
         display: grid;
-        grid-row-gap: .6rem;
+        grid-row-gap: 1rem;
         padding: 1rem 0;
 
         &--input {
@@ -40,6 +44,10 @@
             outline: none;
             cursor: text;
             border-radius: 8px;
+            
+            &::placeholder{
+                color: #222;
+            }
             
             @media only screen and(max-width: $break-point){
                 width: 70%;
@@ -66,12 +74,21 @@
             &:hover {
                 fill: $color-red;
             }
+
+            @media only screen and(max-width: $break-point){
+                width: 25px;
+                height: 25px;
+                margin: 5px;
+            } 
         }
     }
 
     &__submit {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
         width: 70px;
-        background-color: $color-blue;
+        background-color: $color-blue !important;
         border: none;
         border-radius: 5px;
         color: white;

@@ -19,9 +19,9 @@ $break-point: 768px;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont,"Raleway",  "Segoe UI", "Roboto", "Oxygen",
+    font-family: "Raleway",  "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+    sans-serif -apple-system, BlinkMacSystemFont;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 67.5%;
