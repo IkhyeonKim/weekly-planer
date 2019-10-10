@@ -16,13 +16,13 @@ class MyPage extends React.Component {
             editModalIsOpen: false,
             newPlanDay: 'monday',
             newPlanNote: '',
-            newPlanStartTime: '00:00',
-            newPlanEndTime: '00:30',
+            newPlanStartTime: '0000',
+            newPlanEndTime: '0030',
             currentlyEditing: undefined,
             editPlanDay: 'monday',
             editPlanNote: '',
-            editPlanStartTime: '00:00',
-            editPlanEndTime: '00:30',
+            editPlanStartTime: '0000',
+            editPlanEndTime: '0030',
             editPlanId: undefined,
             editingToggle: false // to fire rendering to child components
         }
@@ -34,14 +34,14 @@ class MyPage extends React.Component {
                 [whichModal]: true
             })
         }else if(planInfo){
-            
+            planInfo.forEach( plan => console.log(plan))
             if(whichModal === 'editModalIsOpen'){ 
                 this.setState({
                     [whichModal]: true,
                     editPlanDay: planInfo[5],
                     editPlanNote: planInfo[4],
-                    editPlanStartTime: `${planInfo[0] < 10 ? '0' + planInfo[0] : planInfo[0]}:${planInfo[1] === 0 ? planInfo[1]+'0' : planInfo[1]}`,
-                    editPlanEndTime: `${planInfo[2] < 10 ? '0' + planInfo[2] : planInfo[2]}:${planInfo[3] === 0 ? planInfo[3]+'0' : planInfo[3]}`,
+                    editPlanStartTime: `${planInfo[0] < 10 ? '0' + planInfo[0] : planInfo[0]}${planInfo[1] === 0 ? planInfo[1]+'0' : planInfo[1]}`,
+                    editPlanEndTime: `${planInfo[2] < 10 ? '0' + planInfo[2] : planInfo[2]}${planInfo[3] === 0 ? planInfo[3]+'0' : planInfo[3]}`,
                     editPlanId: planInfo[6]
                 })
             }else{
@@ -50,8 +50,8 @@ class MyPage extends React.Component {
                     [whichModal]: true,
                     newPlanDay: planInfo[4],
                     newPlanNote: '',
-                    newPlanStartTime: `${planInfo[0]}:${planInfo[1]}`,
-                    newPlanEndTime: `${planInfo[2] < 10 ? '0'+planInfo[2] : planInfo[2] }:${planInfo[3]}`
+                    newPlanStartTime: `${planInfo[0]}${planInfo[1]}`,
+                    newPlanEndTime: `${planInfo[2] < 10 ? '0'+planInfo[2] : planInfo[2] }${planInfo[3]}`
                 })
             }        
 
@@ -63,8 +63,8 @@ class MyPage extends React.Component {
             editModalIsOpen: false,
             editPlanDay: 'monday',
             editPlanNote: '',
-            editPlanStartTime: '00:00',
-            editPlanEndTime: '00:30',
+            editPlanStartTime: '0000',
+            editPlanEndTime: '0030',
             editPlanId: ''
         })
     }
@@ -73,17 +73,18 @@ class MyPage extends React.Component {
             addModalIsOpen: false,
             newPlanDay: 'monday',
             newPlanNote: '',
-            newPlanStartTime: '00:00',
-            newPlanEndTime: '00:30',
+            newPlanStartTime: '0000',
+            newPlanEndTime: '0030',
         })
     }
     handleEditSubmit = (e) => {
         e.preventDefault()
+        // console.log(this.state.editPlanNote === '')
         const newPlan = {
             day: this.state.editPlanDay,
             start: this.state.editPlanStartTime,
             end: this.state.editPlanEndTime,
-            note: this.state.editPlanNote === '' ? 'No title' : this.state.newPlanNote,
+            note: this.state.editPlanNote === '' ? 'No title' : this.state.editPlanNote,
             planId: this.state.editPlanId
         }
         const newWeekly = this.state.weekly
@@ -99,8 +100,8 @@ class MyPage extends React.Component {
             editModalIsOpen: false,
             editPlanDay: 'monday',
             editPlanNote: '',
-            editPlanStartTime: '00:00',
-            editPlanEndTime: '00:30',
+            editPlanStartTime: '0000',
+            editPlanEndTime: '0030',
             editPlanId: '',
             editingToggle: true
         })
@@ -114,11 +115,14 @@ class MyPage extends React.Component {
             editModalIsOpen: false,
             editPlanDay: 'monday',
             editPlanNote: '',
-            editPlanStartTime: '00:00',
-            editPlanEndTime: '00:30',
+            editPlanStartTime: '0000',
+            editPlanEndTime: '0030',
             editPlanId: ''
         })
         
+    }
+    printTime = (hour, minute) => {
+        return `${hour < 10 ? '0' + hour: hour }${minute === 0 ? minute + '0' : 30}`
     }
     handleChange = (myNewState, event) => {
         //generic handleChange to avoid repeat same code
@@ -128,7 +132,7 @@ class MyPage extends React.Component {
                 const minute = this.extractTime('minute', value)
                 const hour = this.extractTime('hour', value) - 1
                 this.setState({
-                    newPlanStartTime: `${hour < 10 ? '0' + hour: hour }:${minute === 0 ? minute + '0' : 30}`,
+                    newPlanStartTime: this.printTime(hour, minute),
                     newPlanEndTime: value
                 })
             }else{
@@ -139,20 +143,65 @@ class MyPage extends React.Component {
                 const minute = this.extractTime('minute', value)
                 const hour = this.extractTime('hour', value) + 1
                 this.setState({
-                    newPlanEndTime: `${hour < 10 ? '0' + hour: hour }:${minute === 0 ? minute + '0' : 30}`,
+                    newPlanEndTime: this.printTime(hour, minute),
                     newPlanStartTime: value
                 })
             }else{
                 this.setState({newPlanStartTime: value})
+            }
+        }else if(myNewState === 'editPlanEndTime'){
+            if(this.extractTime('hour', this.state.editPlanStartTime) > this.extractTime('hour', value) ){
+                const minute = this.extractTime('minute', value)
+                const hour = this.extractTime('hour', value) - 1
+                this.setState({
+                    editPlanStartTime: this.printTime(hour, minute),
+                    editPlanEndTime: value
+                })
+            }else{
+                this.setState({editPlanEndTime: value})
+            }
+        }else if(myNewState === 'editPlanStartTime'){
+            if(this.extractTime('hour', this.state.editPlanEndTime) < this.extractTime('hour', value) ){
+                const minute = this.extractTime('minute', value)
+                const hour = this.extractTime('hour', value) + 1
+                this.setState({
+                    editPlanEndTime: this.printTime(hour, minute),
+                    editPlanStartTime: value
+                })
+            }else{
+                this.setState({editPlanStartTime: value})
             }
         }else{
             this.setState({
                 [myNewState]: value
             })
         }
-        
-        
-        
+    }
+    isExisted = (dayPlans, newPlan) => {
+        const newStart = parseInt(newPlan.start)
+        const newEnd = parseInt(newPlan.end)
+        let result = false
+        // console.log(newStart, newEnd)
+        for (const plan of dayPlans) {
+            const oldStart = parseInt(plan.start)
+            const oldEnd = parseInt(plan.end)
+            
+            if(
+                ( (newStart <= oldStart && newStart <= oldEnd) && (newEnd <= oldStart && newEnd <= oldEnd) )
+                ||
+                ( (newStart >= oldStart && newStart >= oldEnd) && (newEnd >= oldStart && newEnd >= oldEnd) )
+            ){
+                result = false
+            }else{
+                result = true
+            }
+
+            if(result === true){
+                return result
+            }
+        }
+
+        return result
     }
     handleSubmit = (e) => {
         e.preventDefault()
@@ -165,21 +214,34 @@ class MyPage extends React.Component {
             planId: uuidV4()
         }
         const newPlans = this.state.weekly.length === 0 ? [] : this.state.weekly.slice()
-        newPlans.push(newPlan)
+        // some validation. one plan at a time
 
-        this.setState( (state, props) => {
-            const newDayPlan = state[day] ? state[day] : []
-            newDayPlan.push(newPlan)
-            return{
-                weekly: newPlans,
-                addModalIsOpen: false,
-                newPlanDay: 'monday',
-                newPlanNote: '',
-                newPlanStartTime: '00:00',
-                newPlanEndTime: '00:30',
-                [this.state.newPlanDay]: newDayPlan
-            }
-        })
+        const dayPlans = newPlans.length === 0 ? [] : newPlans.filter( plan => plan.day === day)
+        console.log(this.isExisted(dayPlans, newPlan))
+        console.log(newPlan)
+        if(this.isExisted(dayPlans, newPlan)){
+            // if it's existed
+
+            alert('A plan is already existed during that time')
+
+        }else{
+            newPlans.push(newPlan)
+
+            this.setState( (state, props) => {
+                const newDayPlan = state[day] ? state[day] : []
+                newDayPlan.push(newPlan)
+                return{
+                    weekly: newPlans,
+                    addModalIsOpen: false,
+                    newPlanDay: 'monday',
+                    newPlanNote: '',
+                    newPlanStartTime: '0000',
+                    newPlanEndTime: '0030',
+                    [this.state.newPlanDay]: newDayPlan
+                }
+            })
+        }
+        
     }
 
     renderTime = () => {
@@ -197,7 +259,7 @@ class MyPage extends React.Component {
             }
             minute === 0 ? minuteText = `${minute}0` : minuteText = `${minute}`
 
-            const timeSlot = <option key={i} value={`${hourText}:${minuteText}`}>{`${hourText}:${minuteText}`}</option>
+            const timeSlot = <option key={i} value={`${hourText}${minuteText}`}>{`${hourText}:${minuteText}`}</option>
             times.push(timeSlot)
 
             if(minute === 0){

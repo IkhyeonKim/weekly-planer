@@ -30,7 +30,7 @@ export default function Day(props){
             
             let hourText = hour < 10 ? `0${hour}` : `${hour}`
             let minuteText = minute === 0 ? `0${minute}` : `${minute}`
-            let slotKey = `${hourText}:${minuteText}`
+            let slotKey = `${hourText}${minuteText}`
             let printedTime = undefined
             let printedNote = undefined
             let startTime = undefined
@@ -61,13 +61,14 @@ export default function Day(props){
             }
             // console.log(props)
             if(dayPlans[timeIndex]){
-                if(slotKey === dayPlans[timeIndex].end){
-                    lastPrint = true
+                if( parseInt(dayPlans[timeIndex].end) - parseInt(slotKey) === 30 || parseInt(dayPlans[timeIndex].end) - parseInt(slotKey)  === 70){
+                    lastPrint = true   
                 }
             }
             const slot = <div 
                             key={slotKey} 
-                            className={isStillGoing ? firstPrint ? `daySlots__daySlot daySlots__colored daySlots__${day} daySlots__colored--radiusTop` : 
+                            className={isStillGoing ? (firstPrint && lastPrint) ? `daySlots__daySlot daySlots__colored daySlots__${day} daySlots__colored--radiusFull` :
+                                        firstPrint ? `daySlots__daySlot daySlots__colored daySlots__${day} daySlots__colored--radiusTop` : 
                                         lastPrint ? `daySlots__daySlot daySlots__colored daySlots__${day} daySlots__colored--radiusBottom` : 
                                         `daySlots__daySlot daySlots__colored daySlots__${day}` : 
                                         `daySlots__daySlot daySlots__unColored`}
@@ -88,12 +89,11 @@ export default function Day(props){
             
             firstPrint = false
             if(dayPlans[timeIndex]){
-                
-                if(slotKey === dayPlans[timeIndex].end){
+                if(lastPrint){
                     isStillGoing = false
                     firstPrint = true
                     lastPrint = false
-                    timeIndex++
+                    timeIndex++   
                 }
             }
 
